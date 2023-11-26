@@ -4,7 +4,7 @@ import path, { dirname } from 'path'
 
 export const getAllMenu = async (req, res) => {
   try {
-    const menu = await (await db.query('select * from goods')).rows
+    const menu = await (await db.query("select * from goods where instock = 'true'")).rows
     const modifiers = await (await db.query('select * from modifiers')).rows
     const goods_modifiers = await (
       await db.query('select * from goods_modifiers')
@@ -68,6 +68,37 @@ export const createOrder = async (req, res) => {
   }
 }
 
+export const getOriginOrders = async (req, res) => {
+  try {
+    res.status(200).download('./file.xlsx')
+  } catch (error) {
+    console.log(error)
+    res.status(500).json('Не удалось создать заказ')
+  }
+}
+
+
+export const createOriginOrder = async (req, res) => {
+  try {
+    const { username, tgId, order, price, isAccepted } = req.body
+    let createdTime = new Date(
+      Date.now() + 1000 * 60 * -new Date().getTimezoneOffset()
+    )
+      .toISOString()
+      .replace('T', ' ')
+      .replace('Z', '')
+    console.log(createdTime)
+    let resText = db.query(
+      `insert into origin_orders (username, tg_id, order_positions, created_on, price, is_acceped) values ($1, $2, $3, $4, $5, $6)`,
+      [username, tgId, order, createdTime, price, isAccepted]
+    )
+    res.status(200).json(resText)
+  } catch (error) {
+    console.log(error)
+    res.status(500).json('Не удалось создать заказ')
+  }
+}
+
 export const getOrders = async (req, res) => {
   try {
     res.status(200).download('./file.xlsx')
@@ -83,5 +114,5 @@ export const getImage = (req, res) => {
   const __filename = fileURLToPath(import.meta.url)
   const __dirname = dirname(__filename)
   console.log(__dirname)
-  res.sendFile(path.join(__dirname, './../images/', imageName))
+  res.sendFile(path.join(__dirname, './../images/Compressed', imageName))
 }
