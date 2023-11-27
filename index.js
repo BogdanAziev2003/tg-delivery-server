@@ -5,7 +5,7 @@ import cors from 'cors'
 import menuRouter from './router/menu.router.js'
 
 dotenv.config()
-const PORT = process.env.PORT || 80
+const PORT = process.env.PORT || 8080
 
 const app = express()
 
