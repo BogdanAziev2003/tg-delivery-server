@@ -39,9 +39,9 @@ export const getAllMenu = async (req, res) => {
 
 export const changeStock = async (req, res) => {
   try {
-    const { id, inStock } = req.body;
+    const { id } = req.body;
     const data = await (
-      await db.query(`update goods set inStock = ${inStock} where id = ${id}`)
+      await db.query(`update goods set inStock = not inStock where id = ${id}`)
     ).rows;
 
     res.status(201).json(data);
@@ -53,10 +53,10 @@ export const changeStock = async (req, res) => {
 
 export const changeInStockModifiers = async (req, res) => {
   try {
-    const { id, inStock } = req.body;
+    const { id } = req.body;
     const data = await (
       await db.query(
-        `update modifiers set inStock = ${inStock} where id = ${id}`
+        `update modifiers set inStock = not inStock where id = ${id}`
       )
     ).rows;
 
