@@ -1,13 +1,15 @@
 import db from "../db.js";
 import { fileURLToPath } from "url";
 import path, { dirname } from "path";
-
+import moment from "moment-timezone";
 export const getAllMenu = async (req, res) => {
   try {
     const menu = await (
       await db.query("select * from goods where instock = 'true'")
     ).rows;
-    const modifiers = await (await db.query("select * from modifiers")).rows;
+    const modifiers = await (
+      await db.query("select * from modifiers where instock = 'true'")
+    ).rows;
     const goods_modifiers = await (
       await db.query("select * from goods_modifiers")
     ).rows;
@@ -49,6 +51,22 @@ export const changeStock = async (req, res) => {
   }
 };
 
+export const changeInStockModifiers = async (req, res) => {
+  try {
+    const { id, inStock } = req.body;
+    const data = await (
+      await db.query(
+        `update modifiers set inStock = ${inStock} where id = ${id}`
+      )
+    ).rows;
+
+    res.status(201).json(data);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: "Не удалось изсенить поле" });
+  }
+};
+
 export const createOrder = async (req, res) => {
   try {
     const { username, tgId, order, price } = req.body;
@@ -63,17 +81,9 @@ export const createOrder = async (req, res) => {
       `insert into orders (username, tg_id, order_positions, created_on, price) values ($1, $2, $3, $4, $5)`,
       [username, tgId, order, createdTime, price]
     );
-    res.status(200).json(resText);
-  } catch (error) {
-    console.log(error);
-    res.status(500).json("Не удалось создать заказ");
-  }
-};
+    console.log(createdTime);
 
-export const getOriginOrders = async (req, res) => {
-  try {
-    const orders = await (await db.query("select * from origin_orders")).rows;
-    res.json(orders);
+    res.status(200).json(resText);
   } catch (error) {
     console.log(error);
     res.status(500).json("Не удалось создать заказ");
@@ -101,13 +111,53 @@ export const createOriginOrder = async (req, res) => {
   }
 };
 
-export const getOrders = async (req, res) => {
+export const getOriginOrders = async (req, res) => {
   try {
-    const orders = await (await db.query("select * from orders")).rows;
+    const orders = await (await db.query("select * from origin_orders")).rows;
+    orders.forEach((order) => {
+      const localTimestamp = moment.utc(order.created_on).tz("Europe/Moscow");
+      order.created_on = localTimestamp.format().replace("+03:00", "");
+    });
     res.json(orders);
   } catch (error) {
     console.log(error);
     res.status(500).json("Не удалось создать заказ");
+  }
+};
+
+export const getOrders = async (req, res) => {
+  try {
+    const orders = await (await db.query("select * from orders")).rows;
+    orders.forEach((order) => {
+      const localTimestamp = moment.utc(order.created_on).tz("Europe/Moscow");
+      order.created_on = localTimestamp.format().replace("+03:00", "");
+    });
+    res.json(orders);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json("Не удалось создать заказ");
+  }
+};
+
+export const getGoodsName = async (req, res) => {
+  try {
+    const menu = await (
+      await db.query("select id, title, inStock from goods order by id")
+    ).rows;
+    res.json(menu);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const getModifiersName = async (req, res) => {
+  try {
+    const menu = await (
+      await db.query("select id, title, inStock from modifiers order by id")
+    ).rows;
+    res.json(menu);
+  } catch (error) {
+    console.log(error);
   }
 };
 

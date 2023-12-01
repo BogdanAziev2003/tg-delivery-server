@@ -1,4 +1,4 @@
-import express from 'express'
+import express from "express";
 import {
   getAllMenu,
   changeStock,
@@ -6,19 +6,24 @@ import {
   getOrders,
   getImage,
   getOriginOrders,
-  createOriginOrder
-} from '../controllers/menu.controllers.js'
+  createOriginOrder,
+  getGoodsName,
+  getModifiersName,
+  changeInStockModifiers,
+} from "../controllers/menu.controllers.js";
 
-const router = express.Router()
+const router = express.Router();
 
-router.get('/getAll', getAllMenu)
-router.put('/changeInStock', changeStock)
-router.post('/createOrder', createOrder)
-router.post('/createOriginOrder', createOriginOrder)
-router.get('/getOrders', getOrders)
-router.get('/getOriginOrders', getOriginOrders)
+router.get("/getAll", getAllMenu);
+router.put("/changeInStock", changeStock);
+router.put("/changeInStockModifiers", changeInStockModifiers);
+router.post("/createOrder", createOrder);
+router.post("/createOriginOrder", createOriginOrder);
+router.get("/getOrders", getOrders);
+router.get("/getOriginOrders", getOriginOrders);
+router.get("/getGoodsName", getGoodsName);
+router.get("/getModifiersName", getModifiersName);
 
+router.get("/image/:imageName", getImage);
 
-router.get('/image/:imageName', getImage)
-
-export default router
+export default router;
