@@ -22,7 +22,7 @@ export const getAllMenu = async (req, res) => {
       product.modifiers.forEach((el) => {
         el.amount = 0;
       });
-      if (product.category === "Сэндвичи") {
+      if (product.category === "Сэндвичи" && !product.title.includes("mini")) {
         product.snack = "Фри";
         product.sause = "Кетчуп";
       }
