@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import cors from "cors";
 
 import menuRouter from "./router/menu.router.js";
+import rioRouter from "./router/rio.router.js";
 
 dotenv.config();
 const PORT = process.env.PORT || 8080;
@@ -22,3 +23,4 @@ app.listen(PORT, () => {
 });
 
 app.use("/api/menu", menuRouter);
+app.use("/api/rio", rioRouter);

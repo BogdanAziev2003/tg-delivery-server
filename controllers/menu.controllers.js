@@ -1,4 +1,4 @@
-import db from "../db.js";
+import { pool as db } from "../db.js";
 import { fileURLToPath } from "url";
 import path, { dirname } from "path";
 import moment from "moment-timezone";
@@ -63,7 +63,7 @@ export const changeInStockModifiers = async (req, res) => {
     res.status(201).json(data);
   } catch (error) {
     console.log(error);
-    res.status(500).json({ message: "Не удалось изсенить поле" });
+    res.status(500).json({ message: "Не удалось изменить поле" });
   }
 };
 
