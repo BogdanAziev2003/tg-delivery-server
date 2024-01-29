@@ -41,6 +41,10 @@ ORDER BY
   getGoodsNames: function () {
     return `SELECT id, name, stock from goods ORDER BY id ASC`;
   },
+
+  createOrder: function(username, tgId, time, price) {
+    return `insert into orders (username, tg_id, time, price) values (${username}, ${tgId}, ${time}, ${price})`;
+  }
 };
 
 export default rio;
