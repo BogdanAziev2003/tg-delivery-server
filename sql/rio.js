@@ -26,7 +26,7 @@ const rio = {
                 WHEN changes.name IS NOT NULL THEN (
                     SELECT  json_agg(
                         json_build_object(
-                            'name', changes_items.name, 'price', changes_items.price
+                            'name', changes_items.name, 'price', changes_items.price, 'selected', changes_items.selected
                         )
                     )
                     FROM changes_items
