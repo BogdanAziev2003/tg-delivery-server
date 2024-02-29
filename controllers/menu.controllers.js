@@ -69,19 +69,17 @@ export const changeInStockModifiers = async (req, res) => {
 
 export const createOrder = async (req, res) => {
   try {
-    const { username, tgId, order, price } = req.body;
+    const { username, tgId, price } = req.body;
     let createdTime = new Date(
       Date.now() + 1000 * 60 * -new Date().getTimezoneOffset()
     )
       .toISOString()
       .replace("T", " ")
       .replace("Z", "");
-    console.log(createdTime);
     let resText = db.query(
-      `insert into orders (username, tg_id, order_positions, created_on, price) values ($1, $2, $3, $4, $5)`,
-      [username, tgId, order, createdTime, price]
+      `insert into orders (username, tg_id, created_on, price) values ($1, $2, $3, $4)`,
+      [username, tgId, createdTime, price]
     );
-    console.log(createdTime);
 
     res.status(200).json(resText);
   } catch (error) {
