@@ -10,6 +10,7 @@ import {
   getGoodsName,
   getModifiersName,
   changeInStockModifiers,
+  getOrdersById,
 } from "../controllers/menu.controllers.js";
 
 const router = express.Router();
@@ -23,6 +24,8 @@ router.get("/getOrders", getOrders);
 router.get("/getOriginOrders", getOriginOrders);
 router.get("/getGoodsName", getGoodsName);
 router.get("/getModifiersName", getModifiersName);
+router.get("/getOrdersById/:tgId", getOrdersById)
+
 
 router.get("/image/:imageName", getImage);
 

@@ -167,3 +167,20 @@ export const getImage = (req, res) => {
   console.log(__dirname);
   res.sendFile(path.join(__dirname, "./../images/Compressed", imageName));
 };
+
+export const getOrdersById = async (req, res) => {
+  try {
+
+    let tgId = req.params.tgId;
+
+    const orders = await (await db.query(`select * from orders where tg_id = ${tgId}`)).rows;
+    orders.forEach((order) => {
+      const localTimestamp = moment.utc(order.created_on).tz("Europe/Moscow");
+      order.created_on = localTimestamp.format().replace("+03:00", "");
+    });
+    res.json(orders);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json("Не удалось создать заказ");
+  }
+}
