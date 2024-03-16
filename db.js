@@ -15,3 +15,11 @@ export const rioPool = new pg.Pool({
   port: "5432",
   database: "rio",
 });
+
+export const sushiPool = new pg.Pool({
+  user: "gen_user",
+  password: "B.Aziev-03",
+  host: "94.241.169.9",
+  port: "5432",
+  database: "sushi_bar",
+});
