@@ -7,6 +7,7 @@ const sushi = {
     goods.category,
     goods.image,
     goods.stock,
+    goods.contains,
     goods.quantity_type,
     json_agg(
         CASE
@@ -54,7 +55,7 @@ GROUP BY
     goods.id
 ORDER BY
     goods.id ASC;`
-  }
+  },
 }
 
 export default sushi
