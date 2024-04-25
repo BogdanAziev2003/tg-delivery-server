@@ -5,7 +5,7 @@ import moment from "moment-timezone";
 export const getAllMenu = async (req, res) => {
   try {
     const menu = await (
-      await db.query("select * from goods where instock = 'true'")
+      await db.query("select * from goods where instock = 'true' order by id")
     ).rows;
     const modifiers = await (
       await db.query("select * from modifiers where instock = 'true'")
