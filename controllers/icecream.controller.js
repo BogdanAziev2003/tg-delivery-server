@@ -1,5 +1,7 @@
 import { icecreamPool as db } from "../db.js"
 import icecream from "../sql/icecream.js"
+import { fileURLToPath } from "url";
+import path, { dirname } from "path";
 
 export const getMenu = async (req, res) => {
   try {
@@ -13,3 +15,15 @@ export const getMenu = async (req, res) => {
       });
   }
 };
+
+
+
+export const getImage = (req, res) => {
+    let imageName = req.params.imageName;
+  
+    const __filename = fileURLToPath(import.meta.url);
+    const __dirname = dirname(__filename);
+    console.log(__dirname);
+    res.sendFile(path.join(__dirname, "./../images/icecream", imageName));
+  };
+  
