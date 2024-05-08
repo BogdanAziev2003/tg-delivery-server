@@ -4,7 +4,7 @@ const icecream = {
   },
 
   getStock: function () {
-    return `SELECT name, stock FROM goods ORDER BY id`
+    return `SELECT id, name, stock FROM goods ORDER BY id`
   },
 }
 
